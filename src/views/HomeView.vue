@@ -14,7 +14,7 @@ const links = ref([
     path: '/mir',
   },
   {
-    title: 'Some Words',
+    title: 'Some words',
     path: '/blog',
   },
 ])
@@ -22,9 +22,8 @@ const links = ref([
 
 <template>
   <div class="home">
-    <div class="background-image"></div>
     <div class="content">
-      <h1 class="main-title">About Me</h1>
+      <h1 class="main-title">About</h1>
 
       <div class="links-container">
         <div
@@ -46,17 +45,8 @@ const links = ref([
   position: relative;
   padding-top: 80px;
   display: flex;
-  align-items: left;
-}
-
-.background-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  align-items: center;
   background-color: #f5f5f5;
-  z-index: -1;
 }
 
 .content {
@@ -64,12 +54,13 @@ const links = ref([
   margin: 0 auto;
   padding: 2rem;
   width: 100%;
-  text-align: left;
+  text-align: center;
+  z-index: 1;
 }
 
 .main-title {
   font-family: 'Shantell Sans', cursive;
-  font-size: 3.5rem;
+  font-size: 20px;
   margin-bottom: 3rem;
   color: #333;
   font-weight: 500;
@@ -78,14 +69,14 @@ const links = ref([
 .links-container {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
   gap: 1.5rem;
 }
 
 .link-item {
   font-family: 'Shantell Sans', cursive;
   font-size: 14px;
-  color: #333;
+  color: #666363;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;

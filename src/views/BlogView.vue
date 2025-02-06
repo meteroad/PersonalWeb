@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import FireworksDisplay from '../components/Fireworks.vue'
 
-const activeTab = ref('poems')
+interface Article {
+  id: number
+  title: string
+  preview: string
+  date: string
+}
 
-const articles = {
+type TabName = 'poems' | 'essays' | 'reviews'
+
+const activeTab = ref<TabName>('poems')
+
+const articles: Record<TabName, Article[]> = {
   poems: [
     { id: 1, title: '诗歌标题 1', preview: '诗歌预览内容...', date: '2024-01-24' },
     // 添加更多诗歌...
@@ -21,6 +31,7 @@ const articles = {
 
 <template>
   <div class="blog-view">
+    <FireworksDisplay />
     <div class="content">
       <h1>文字与思考</h1>
 
@@ -68,18 +79,28 @@ const articles = {
   min-height: 100vh;
   padding: 2rem;
   margin-top: 80px;
+  background-color: rgb(10, 20, 40);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 .content {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #333;
+  color: #fff;
   text-align: center;
+  font-family: 'Shantell Sans', cursive;
 }
 
 .tabs {
@@ -90,23 +111,24 @@ h1 {
 }
 
 .tab-button {
+  font-family: 'Shantell Sans', cursive;
   padding: 0.8rem 2rem;
   border: none;
   background: none;
   font-size: 1.1rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.3s ease;
 }
 
 .tab-button:hover {
-  color: #333;
+  color: #fff;
 }
 
 .tab-button.active {
-  color: #333;
-  border-bottom-color: #333;
+  color: #fff;
+  border-bottom-color: #fff;
 }
 
 .articles-container {
@@ -120,10 +142,10 @@ h1 {
 }
 
 .article-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease;
 }
 
@@ -134,11 +156,12 @@ h1 {
 .article-card h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: #fff;
+  font-family: 'Shantell Sans', cursive;
 }
 
 .article-preview {
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
@@ -147,7 +170,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #999;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
 }
 
@@ -186,13 +209,13 @@ h1 {
   .tab-button {
     padding: 1rem;
     text-align: center;
-    border: 1px solid #eee;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
   }
 
   .tab-button.active {
-    background: #f5f5f5;
-    border-color: #ddd;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: transparent;
   }
 }
 </style>
