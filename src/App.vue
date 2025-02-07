@@ -27,11 +27,12 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: transparent;
 }
 
 .app-container {
   min-height: 100vh;
+  background-color: transparent;
 }
 
 .navbar {
@@ -42,9 +43,10 @@ body {
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
-  background: rgba(245, 245, 245, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-left {
@@ -58,7 +60,7 @@ body {
   font-size: 1.2rem;
   font-weight: 500;
   text-decoration: none;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .nav-links {
@@ -69,13 +71,13 @@ body {
 .nav-links a {
   font-family: 'Shantell Sans', cursive;
   text-decoration: none;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1.1rem;
   transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-  color: #007aff;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* 页面切换动画 */

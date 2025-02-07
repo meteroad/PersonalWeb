@@ -1,5 +1,10 @@
+<script setup lang="ts">
+import HandDrawnLine from '../components/HandDrawnLine.vue'
+</script>
+
 <template>
   <div class="introduction-view">
+    <HandDrawnLine />
     <div class="content">
       <div class="profile-section">
         <div class="profile-image">
@@ -41,13 +46,16 @@
 <style scoped>
 .introduction-view {
   min-height: 100vh;
-  padding: 2rem;
   margin-top: 80px;
+  position: relative;
+  background: transparent;
 }
 
 .content {
   max-width: 1000px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .profile-section {
@@ -66,7 +74,7 @@
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .profile-info {
@@ -76,19 +84,19 @@
 h1 {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 h2 {
   font-size: 1.5rem;
   margin: 2rem 0 1rem;
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .bio {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 2rem;
 }
 
@@ -101,10 +109,10 @@ h2 {
 }
 
 .interests li {
-  background: #f5f5f5;
+  background: rgba(255, 255, 255, 0.1);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
 }
 
@@ -115,14 +123,14 @@ h2 {
 }
 
 .contact-links a {
-  color: #007aff;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .contact-links a:hover {
-  color: #0056b3;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 @media (max-width: 768px) {
@@ -133,6 +141,7 @@ h2 {
   .profile-section {
     flex-direction: column;
     gap: 2rem;
+    padding: 1.5rem;
   }
 
   .profile-image {

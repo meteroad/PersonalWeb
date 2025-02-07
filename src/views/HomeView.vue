@@ -46,7 +46,6 @@ const links = ref([
   padding-top: 80px;
   display: flex;
   align-items: center;
-  background-color: #f5f5f5;
 }
 
 .content {
