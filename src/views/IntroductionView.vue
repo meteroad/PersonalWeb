@@ -6,7 +6,7 @@
           <img src="@/assets/profile-placeholder.jpg" alt="个人照片" />
         </div>
         <div class="profile-info">
-          <h1>个人介绍</h1>
+          <h1>我</h1>
           <div class="info-content">
             <p class="bio">
               这里是您的个人简介，可以描述您的专业背景、兴趣爱好、创作理念等。
