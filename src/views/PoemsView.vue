@@ -1,52 +1,48 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import FireworksDisplay from '../components/Fireworks.vue'
+import { loadAllPoems } from '../utils/poemLoader'
+import type { Poem } from '../utils/poemLoader'
 
-interface Poem {
-  id: number
-  title: string
-  content: string
-  author: string
-  date: string
+const router = useRouter()
+const poems = ref<Poem[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    poems.value = await loadAllPoems()
+  } catch (error) {
+    console.error('加载诗歌失败:', error)
+  } finally {
+    loading.value = false
+  }
+})
+
+const openPoemDetail = (poemId: string) => {
+  router.push(`/poems/${poemId}`)
 }
-
-const poems: Poem[] = [
-  {
-    id: 1,
-    title: '春日',
-    content: '细雨湿衣看不见，闲花落地听无声。\n人间四月芳菲尽，山寺桃花始盛开。',
-    author: '李白',
-    date: '2024-01',
-  },
-  {
-    id: 2,
-    title: '夜思',
-    content: '夜深星光烁，风静月华寒。\n独坐窗前望，思绪满江山。',
-    author: '李清照',
-    date: '2024-02',
-  },
-  {
-    id: 3,
-    title: '秋夕',
-    content: '银河秋夜转，玉露清晨飞。\n岁月无声度，光阴似箭归。',
-    author: '杜甫',
-    date: '2024-03',
-  },
-  // 添加更多诗歌...
-]
 </script>
 
 <template>
   <div class="poems-view">
     <FireworksDisplay />
     <div class="content">
-      <div class="poems-grid">
-        <div v-for="poem in poems" :key="poem.id" class="poem-card">
+      <div v-if="loading" class="loading">加载中...</div>
+      <div v-else class="poems-grid">
+        <div
+          v-for="poem in poems"
+          :key="poem.id"
+          class="poem-card"
+          @click="openPoemDetail(poem.id)"
+        >
           <h2 class="poem-title">{{ poem.title }}</h2>
           <p class="poem-content">{{ poem.content }}</p>
           <div class="poem-meta">
             <span class="author">{{ poem.author }}</span>
             <span class="date">{{ poem.date }}</span>
           </div>
+          <div class="read-more">阅读全文</div>
         </div>
       </div>
     </div>
@@ -76,41 +72,50 @@ const poems: Poem[] = [
   z-index: 1;
 }
 
+.loading {
+  text-align: center;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
 .poems-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  padding: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  padding: 0.5rem;
 }
 
 .poem-card {
-  aspect-ratio: 1;
-  background: rgba(255, 255, 255, 0.1);
+  aspect-ratio: 7/4;
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
-  padding: 2rem;
+  padding: 1.2rem;
   border-radius: 4px;
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .poem-card:hover {
   transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .poem-title {
   font-family: 'Poets Electra Roman No 2', serif;
-  font-size: 26.4px;
-  color: #fff;
-  margin-bottom: 1.5rem;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 0.6rem;
 }
 
 .poem-content {
   font-family: 'Times New Roman', serif;
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
   flex-grow: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -118,25 +123,60 @@ const poems: Poem[] = [
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: pre-line;
+  margin-bottom: 0.3rem;
+  max-height: 3em;
 }
 
 .poem-meta {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  bottom: 0.6rem;
+  left: 1.2rem;
+  color: rgba(255, 255, 255, 0.5);
   font-family: 'Times New Roman', serif;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
-@media (max-width: 1024px) {
+.poem-meta .author::after {
+  content: '·';
+  margin-left: 0.5rem;
+}
+
+.read-more {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  font-family: 'Shantell Sans', cursive;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.poem-card:hover .read-more {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 1200px) {
+  .poems-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
   .poems-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .poems-view {
     padding: 1rem;
   }
